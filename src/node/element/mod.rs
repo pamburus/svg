@@ -521,7 +521,7 @@ implement! {
     }
 
     #[doc = "A [`text`](https://www.w3.org/TR/SVG/text.html#TextElement) element."]
-    struct Text [is_bareable] [T: Into<String>] [inner, content: T] {
+    struct Text [is_bare] [T: Into<String>] [inner, content: T] {
         inner.append(crate::node::Text::new(content));
     }
 
@@ -536,7 +536,7 @@ implement! {
     }
 
     #[doc = "A [`tspan`](https://www.w3.org/TR/SVG/text.html#TextElement) element."]
-    struct TSpan [] [T: Into<String>] [inner, content: T] {
+    struct TSpan [is_bare] [T: Into<String>] [inner, content: T] {
         inner.append(crate::node::Text::new(content));
     }
 }
@@ -562,14 +562,8 @@ mod tests {
             .add(one.get_children()[0].clone())
             .add(one.get_children_mut().pop().unwrap());
 
-        assert_eq!(
-            one.to_string(),
-            "<g>\n<text>\nfoo\n</text>\n<text>\nbar\n</text>\n</g>",
-        );
-        assert_eq!(
-            two.to_string(),
-            "<g>\n<text>\nfoo\n</text>\n<text>\nbuz\n</text>\n</g>",
-        );
+        assert_eq!(one.to_string(), "<g><text>foo</text><text>bar</text></g>",);
+        assert_eq!(two.to_string(), "<g><text>foo</text><text>buz</text></g>",);
     }
 
     #[test]
