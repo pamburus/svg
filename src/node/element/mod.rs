@@ -110,6 +110,15 @@ impl Node for Element {
     }
 
     #[inline]
+    fn unassign<T>(&mut self, name: T)
+    where
+        Self: Sized,
+        T: AsRef<str>,
+    {
+        self.attributes.remove(name.as_ref());
+    }
+
+    #[inline]
     fn get_name(&self) -> &str {
         Self::get_name(self)
     }
@@ -179,6 +188,15 @@ macro_rules! implement_nested(
             {
                 self.$field_name.assign(name, value);
             }
+
+            #[inline]
+            fn unassign<T>(&mut self, name: T)
+            where
+                T: AsRef<str>,
+            {
+                self.$field_name.unassign(name);
+            }
+
 
             #[inline]
             fn get_name(&self) -> &str {

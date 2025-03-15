@@ -43,6 +43,15 @@ pub trait Node:
     {
     }
 
+    /// Unassign an attribute.
+    #[inline]
+    fn unassign<T>(&mut self, _: T)
+    where
+        Self: Sized,
+        T: AsRef<str>,
+    {
+    }
+
     /// Return the name.
     fn get_name(&self) -> &str;
 
